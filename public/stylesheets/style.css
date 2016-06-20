@@ -1,0 +1,26 @@
+body {
+  display: flex;
+  height:100vh;
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+
+  background-color: #eeeeee;
+}
+
+a {
+  color: #00B7FF;
+}
+
+#loginDiv{
+  background-color: #eeeeee;
+}
+
+#formDiv{
+  background-color: #eeeeee;
+}
+#tile{
+  background-color:#4cae4c;
+}
+.full-length{
+  height:100vh;
+}

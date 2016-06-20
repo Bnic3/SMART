@@ -1,0 +1,36 @@
+<div id="loginDiv" layout = "row" class="full-length"  >
+    <div id="tile" hide-xs flex="66">
+        <md-button md-no-ink class="md-primary">Primary (md-noink)</md-button>
+        <md-button ng-disabled="true" class="md-primary">Disabled</md-button>
+    </div>
+
+    <div id="formDiv " flex  layout-align="center stretch" layout="column"  >
+        <div name="loginForm" layout="column" class="md-whiteframe-z1" layout-align="center" >
+
+            <md-toolbar>
+                <h3 class="md-toolbar-tools md-toolbar">Login</h3>
+            </md-toolbar>
+            <md-content layout="column" layout-fill>
+                <md-input-container>
+                    <label>Email</label>
+                    <input  ng-model="loginUser.email" type="email" required  aria-label="true" />
+                </md-input-container>
+
+                <md-input-container>
+                    <input  ng-model="loginUser.password" type="password"  required aria-label="true" />
+                    <label>Password</label>
+                </md-input-container>
+                <div layout="row" layout-align="center center">
+                    <md-button class="md-raised md-primary" ng-click="ctrl.login(loginUser)">Login</md-button>
+                    <md-button  md-no-ink>Forgot Password</md-button>
+                </div>
+
+            </md-content>
+        </div>
+
+
+    </div>
+
+
+
+</div>

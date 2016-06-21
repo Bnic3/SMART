@@ -28,9 +28,11 @@ function loginConfig($stateProvider, $urlRouterProvider){
 
 }
 
-function loginCtrl($state, LoginService, $scope){
+function loginCtrl($scope, $state, LoginService){
     var ctrl = this;
     ctrl.loginUser= {} //form object
+
+    console.log($scope);
 
     ctrl.login = function(user){
         //callLogin service

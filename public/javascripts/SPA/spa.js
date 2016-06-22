@@ -5,14 +5,16 @@ angular.module('spa',['spa.core',
                         'spa.login',
                         'spa.dashboard'])
     .config(config)
-    .value("DOMAIN", "http://localhost.com:3000");
+    .value("DOMAIN", "http://localhost:3000");
 
 
 
 
 angular.module('spa.core',['ui.router','ngMaterial']);
 
+
 config.$inject=['$mdThemingProvider','$stateProvider','$urlRouterProvider'];
+
 
  function config($mdThemingProvider) {
     $mdThemingProvider.theme('default')
@@ -26,3 +28,13 @@ config.$inject=['$mdThemingProvider','$stateProvider','$urlRouterProvider'];
 
 }//end config
 
+function notification (){
+    function notify(obj){
+        toastr[obj.notifyType](obj.message);
+        /*if(obj.notifyType== "error"){toastr.error(obj.message)}
+        else if(obj.notifyType== "info"){toastr.info(obj.message)}
+        else if(obj.notifyType== "error"){toastr.error(obj.message)}*/
+    }
+return {notify: notify}
+
+}

@@ -12,8 +12,12 @@ router.get('/ESS', function(req, res, next) {
   res.render('spa', { title: 'SMART' });
 });
 
+router.get("/fail", function(req,res){
+  res.send({success: false, message:"Username/Password Incorrect", notifyType: "error"})
+})
 
-router.post('/login', passport.authenticate('local', { failureRedirect: '/' }),function(req,res){
+
+router.post('/login', passport.authenticate('local', { failureRedirect: '/fail' }),function(req,res){
   console.log(req.user);
   var me = req;
   req.logIn(req.user, function (err){
@@ -21,7 +25,7 @@ router.post('/login', passport.authenticate('local', { failureRedirect: '/' }),f
 
     console.log("<<break>>");
     console.log(req.session);
-    res.send({sucess: true, user: req.user});
+    res.send({success: true,message:"Welcome back "+ req.user.username, notifyType: "success", user: req.user});
   });
  /* console.log(req)*/
 
@@ -31,5 +35,9 @@ router.post('/login', passport.authenticate('local', { failureRedirect: '/' }),f
 });
 router.get('/logout', function(req,res){req.logOut();
           res.send()})
+
+router.route('/testing')
+    .post(function(req,res){ console.log(req.body);res.send("test post")})
+    .get(function(req,res){ console.log('test get');res.send("test get"); });
 
 module.exports = router;

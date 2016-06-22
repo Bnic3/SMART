@@ -13,7 +13,9 @@ module.exports = function (app) {
 
     passport.deserializeUser(function (id, done) {
         User.findById(id, function (err, user) {
-            done(err, user);
+            if (user){ done(err, user);}
+            else {done(null, false)}
+
         });
 
     });
@@ -22,16 +24,17 @@ module.exports = function (app) {
     // passport/login.js
     passport.use(new LocalStrategy(
         function(username, password, done) {
-
+            console.log(username);
+            console.log(password);
             User.findOne({ username: username }, function (err, user) {
-                if (err) { return done(err); }
+                if (err) { return done(null, false); }
                 if (!user) {
                     return done(null, false, { message: 'Incorrect username.' });
                 }
-                var validity= user.isValidPassword(password)
+                //var validity= user.isValidPassword(password)
                 if (user && user.isValidPassword(password))return done(null,user);
                 //if (user && !user.isValidPassword(password))return done(err, false, { message: 'Incorrect password.' });
-                return done(err, false, { message: 'Incorrect password.' });
+                return done(null,false );//{ message: 'Incorrect password.' }
 
 
             });

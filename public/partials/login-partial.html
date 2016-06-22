@@ -1,5 +1,5 @@
 <div id="loginDiv" layout = "row" class="full-length"  >
-    <div id="tile" hide-xs flex="66">
+    <div id="tile" hide-sm hide-xs flex="66">
         <md-button md-no-ink class="md-primary">Primary (md-noink)</md-button>
         <md-button ng-disabled="true" class="md-primary">Disabled</md-button>
     </div>
@@ -13,7 +13,7 @@
             <md-content layout="column" layout-fill>
                 <md-input-container>
                     <label>Email</label>
-                    <input  ng-model="loginUser.email" type="email" required  aria-label="true" />
+                    <input   ng-model="loginUser.name"  required  aria-label="true"  />
                 </md-input-container>
 
                 <md-input-container>
@@ -22,7 +22,7 @@
                 </md-input-container>
                 <div layout="row" layout-align="center center">
                     <md-button class="md-raised md-primary" ng-click="ctrl.login(loginUser)">Login</md-button>
-                    <md-button  md-no-ink>Forgot Password</md-button>
+                    <md-button  md-no-ink ng-click="ctrl.testing()">Forgot Password</md-button>
                 </div>
 
             </md-content>

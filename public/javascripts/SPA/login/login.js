@@ -3,14 +3,14 @@
  */
 angular.module('spa.login',[])
     .config(loginConfig)
-    .factory('LoginService',loginService)
+    .service('LoginService',loginService)
     .controller('loginCtrl',loginCtrl);
 
 
 
 //dependency injections
 loginConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
-loginCtrl.$inject=["$scope", "$state","LoginService"];
+loginCtrl.$inject=["$scope", "$state","$http","LoginService"];
 loginService.$inject= ["$http","DOMAIN"];
 
 function loginConfig($stateProvider, $urlRouterProvider){
@@ -28,33 +28,35 @@ function loginConfig($stateProvider, $urlRouterProvider){
 
 }
 
-function loginCtrl($scope, $state, LoginService){
+function loginCtrl($scope, $state,$http, LoginService){
     var ctrl = this;
     ctrl.loginUser= {} //form object
 
-    console.log($scope);
+    /*console.log($scope);*/
 
     ctrl.login = function(user){
         //callLogin service
-        console.log("me");
-        /*console.log(LoginService.login(user));*/
+        console.log(user.name);
+        console.log(LoginService.login(user));
         return LoginService.login(user)
-            .then(function(result){
-                $state.go("/home");
-                console.log(result.user)});
+            .success(function(result){
+               // $state.go("home");
+                toastr[result.notifyType](result.message);})
 
+
+    }
+    ctrl.testing= function(user){
+        console.log(user);
+        toastr.success("HR has been notified")
     }
 
 }
 
 function loginService($http,DOMAIN){
-    function login(user){
-        return $http.post(DOMAIN+"/login",{username: user.email, password:user.password});
-    }
-    return{login:login}
-   /* this.name= function(){
-        return "john";
-    }*/
+    this.login=function(user){
+                return $http.post(DOMAIN+"/login",{username: user.name, password:user.password});
+            }
+
 
 }
 

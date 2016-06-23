@@ -30,8 +30,8 @@ function createUser(req, res) {
   User.setPassword(psw);
 
   User.save(function (err, result) {
-    if (err) return res.json(err, 404);
-    return res.json(result);
+    if (err) return res.json(err, 404);// {"code": 11000,"errmsg": duplicate}
+    return res.json(result);//
   });
 } //end create
 

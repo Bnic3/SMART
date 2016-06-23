@@ -10,7 +10,7 @@ angular.module('spa.login',[])
 
 //dependency injections
 loginConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
-loginCtrl.$inject=["$scope", "$state","$http","LoginService"];
+loginCtrl.$inject=["$scope", "$state","$http","LoginService","myIdentityService"];
 loginService.$inject= ["$http","DOMAIN"];
 
 function loginConfig($stateProvider, $urlRouterProvider){
@@ -28,19 +28,20 @@ function loginConfig($stateProvider, $urlRouterProvider){
 
 }
 
-function loginCtrl($scope, $state,$http, LoginService){
+function loginCtrl($scope, $state,$http, LoginService,myIdentityService){
     var ctrl = this;
     ctrl.loginUser= {} //form object
 
     /*console.log($scope);*/
 
     ctrl.login = function(user){
-        //callLogin service
-        console.log(user.name);
-        console.log(LoginService.login(user));
+
         return LoginService.login(user)
             .success(function(result){
-               // $state.go("home");
+                myIdentityService.currentUser= result.user;
+                if (result.notifyType !== "error"){
+                    $state.go("home");
+                }
                 toastr[result.notifyType](result.message);})
 
 

@@ -12,6 +12,7 @@ angular.module('spa.dashboard',[])
 
 
 dashboardconfig.$inject=['$stateProvider', '$urlRouterProvider'];
+authenticationChk.$inject= ['myIdentityService','$q'];
 
 
 function dashboardconfig($stateProvider, $urlRouterProvider){
@@ -23,7 +24,9 @@ function dashboardconfig($stateProvider, $urlRouterProvider){
             url:"/home",
             template: "<h1>IN<h1>",
             controller: "homeCtrl",
-            controllerAs:"ctrl"
+            controllerAs:"ctrl",
+            resolve:{authentication: authenticationChk
+            }
         });
         /*.state('page2',{
             url:"/page1",
@@ -31,5 +34,12 @@ function dashboardconfig($stateProvider, $urlRouterProvider){
             controller: "AppCtrl",
             controllerAs:"ctrl"
         })*/
+
+}
+
+
+function authenticationChk(myIdentityService,$q){
+    if(myIdentityService.currentUser) {return true;}
+    else { return $q.reject('not logged in');}
 
 }

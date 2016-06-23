@@ -29,8 +29,10 @@ html
 
   body(class= "full-length")
     block content
+
   script(src='/javascripts/SPA/spa.js')
   script(src='/javascripts/SPA/login/login.js')
   script(src='/javascripts/SPA/dashboard/dashboard.js')
   script(src='/javascripts/SPA/dashboard/dashboardCtrl.js')
   script(src='/bower_components/toastr/toastr.min.js')
+  include currentUser

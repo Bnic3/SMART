@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/ESS', function(req, res, next) {
-  res.render('spa', { title: 'SMART' });
+  res.render('spa', { title: 'SMART', bootstrappedUser: req.user});
 });
 
 router.get("/fail", function(req,res){
@@ -34,7 +34,7 @@ router.post('/login', passport.authenticate('local', { failureRedirect: '/fail' 
 
 });
 router.get('/logout', function(req,res){req.logOut();
-          res.send()})
+          res.send('u are logged out')})
 
 router.route('/testing')
     .post(function(req,res){ console.log(req.body);res.send("test post")})

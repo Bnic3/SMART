@@ -5,18 +5,23 @@ angular.module('spa',['spa.core',
                         'spa.login',
                         'spa.dashboard'])
     .config(config)
+    .service('myIdentityService', myIdentity)
     .value("DOMAIN", "http://localhost:3000");
 
 
 
 
 angular.module('spa.core',['ui.router','ngMaterial']);
+angular.module('spa').run(appRun);
 
-
+//dependency injections
 config.$inject=['$mdThemingProvider','$stateProvider','$urlRouterProvider'];
+myIdentity.$inject=['$window'];
+appRun.$inject=['$rootScope','$state'];
 
 
- function config($mdThemingProvider) {
+
+function config($mdThemingProvider) {
     $mdThemingProvider.theme('default')
         .primaryPalette('indigo',{
             'default': '900', // by default use shade 400 from the pink palette for primary intentions
@@ -28,13 +33,36 @@ config.$inject=['$mdThemingProvider','$stateProvider','$urlRouterProvider'];
 
 }//end config
 
-function notification (){
-    function notify(obj){
-        toastr[obj.notifyType](obj.message);
-        /*if(obj.notifyType== "error"){toastr.error(obj.message)}
-        else if(obj.notifyType== "info"){toastr.info(obj.message)}
-        else if(obj.notifyType== "error"){toastr.error(obj.message)}*/
+function myIdentity($window){
+    var currentUser;
+    if(!!$window.bootstrappedUserObject){ currentUser=$window.bootstrappedUserObject; }
+
+    function isAuthenticated(){
+        return !!this.currentUser;
     }
-return {notify: notify}
+    function isAdmin(){
+        return this.currentUser.roles && this.currentUser.roles.indexOf('admin')>-1;
+    }
+    function isSuperAdmin(){
+        return this.currentUser.roles && this.currentUser.roles.indexOf('superadmin')>-1;
+    }
+
+    return {
+        currentUser:currentUser,
+        isAuthenticated: isAuthenticated,
+        isAdmin:isAdmin,
+        isSuper:isSuperAdmin
+    }//
+
+}//endMyIdentity
+
+function appRun ($rootScope,$state){
+    $rootScope.$on('$routeChangeError', function(evt,current,previous,rejection){
+        if(rejection == 'not logged in'){ $state.go('login')}
+    })
 
 }
+
+
+
+

@@ -27,11 +27,26 @@ var EmployeeSchema = new Schema({
     housing:Number,
     transport:Number,
     other:[Schema.Types.Mixed],
-    role:[String]
+    role:[String],
+    company:{type: Schema.Types.ObjectId, ref:'Company'}
 
 
 
 });
+
+
+var hash = function(passwd, salt) {
+    return crypto.createHmac('sha256', salt).update(passwd).digest('hex');
+};
+
+EmployeeSchema.methods.setPassword = function(passwordString) {
+    this.passwdhash = hash(passwordString, this.salt);
+};
+EmployeeSchema.methods.isValidPassword = function(passwordString) {
+    var w = hash(passwordString, this.salt);
+    //return w;
+    return this.passwdhash === hash(passwordString, this.salt);
+};
 
 
 

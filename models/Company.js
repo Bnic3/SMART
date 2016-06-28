@@ -15,7 +15,9 @@ var CompanySchema = new Schema({
     alias: String,
     admin_email: String,
     admin_contact: String,
-    createdOn: Date
+    createdOn: Date,
+    license: Number,
+    type: String
 
 });
 

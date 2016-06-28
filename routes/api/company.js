@@ -19,10 +19,23 @@ router.route('/company')
 
 
 router.post('/update/company', function(req, res) {
-    res.send('respond with a resource');
+    var data = req.body;
+    var Company = DB.model("Company");
+
+    Company.update({ _id:data._id }, data, { upsert:true }, function(err, UpdatedEmployee){
+        if(err) return res.status(404).json(err);
+        return res.json({ error: false, message:'update successful', payload:UpdatedEmployee,status:"OK" });
+    });
 });
 
-function getCompany(){
+function getCompany(req, res){
+    var Company = DB.model("Company");
+
+    var q = Company.find({}).exec();
+    q.then(function(results){
+        res.json(results);
+    });
+
 }
 
 
@@ -41,6 +54,8 @@ function createCompany(req, res){
             alias: input.alias,
             admin_email: input.email,
             admin_contact: input.contact,
+            license: input.license,
+            type: input.type,
             createdOn: Date.now()
         })
 
@@ -70,7 +85,16 @@ function createCompany(req, res){
 
 }
 
-function deleteCompany(){}
+function deleteCompany(req,res){
+    var Company = DB.model("Company");
+    var id = mongoose.Types.ObjectId(req.query.id);
+
+    Company.remove({_id : id}, function(err, User){
+        if(err) return res.status(404).json(err);
+
+        return res.send({success: true, message:"Company deleted successfully", notifyType: "success"});
+    });
+}
 
 
 
